@@ -15,6 +15,5 @@ namespace ODataSample.Repositories
         Task<T> Edit(int id, Delta<T> delta);
         Task<T> FullUpdate(int id, T update);
         Task<T> Delete(int id);
-        void Dispose();
     }
 }

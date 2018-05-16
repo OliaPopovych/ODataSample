@@ -1,17 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web.Routing;
+using Ninject;
+using System.Reflection;
+using ODataSample.Repositories;
+using ODataSample.Repositories.Models;
+using ODataSample.Models;
+using Ninject.Web.Common.WebHost;
 using System.Web.Http;
-using System.Web.Routing;
 
 namespace ODataSample
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : NinjectHttpApplication
     {
-        protected void Application_Start()
+        protected override void OnApplicationStarted()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+        }
+
+        protected override Ninject.IKernel CreateKernel()
+        {
+            IKernel kernal = new StandardKernel();
+            kernal.Load(Assembly.GetExecutingAssembly());
+            kernal.Bind<IBaseRepository<Country>>().To<CountryRepository>();
+            kernal.Bind<IBaseRepository<Product>>().To<ProductRepository>();
+            kernal.Bind<IBaseRepository<Customer>>().To<CustomerRepository>();
+            return kernal;
         }
     }
 }

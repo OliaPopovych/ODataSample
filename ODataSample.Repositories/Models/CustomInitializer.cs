@@ -22,8 +22,7 @@ namespace ODataSample.Repositories.Models
                 ProductId = 1,
                 Name = "ApplePhone",
                 Category = "Electronics",
-                Price = 800,
-                Customer = customer
+                Price = 800
             };
 
             var country = new Country()

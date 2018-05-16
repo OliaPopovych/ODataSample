@@ -11,7 +11,7 @@ namespace ODataSample.Repositories.Models
         public string LastName { get; set; }
         public string TelephoneNumber { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
 
         [ForeignKey("Country")]
         public int CountryId { get; set; }
@@ -20,10 +20,11 @@ namespace ODataSample.Repositories.Models
         public Customer(Country country)
         {
             Country = country;
-            Products = new List<Product>();
+            Products = new HashSet<Product>();
         }
         public Customer()
         {
+            Products = new HashSet<Product>();
         }
     }
 }
