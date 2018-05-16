@@ -14,9 +14,9 @@ namespace ODataSample.Controllers
     {
         private readonly IBaseRepository<Country> countryRepository;
 
-        public CountriesController()
+        public CountriesController(IBaseRepository<Country> countryRepository)
         {
-            countryRepository = new CountryRepository();
+            this.countryRepository = countryRepository;
         }
 
         [ODataRoute("Countries")]

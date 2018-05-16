@@ -12,9 +12,9 @@ namespace ODataSample.Controllers
     {
         private readonly IBaseRepository<Customer> customerRepository;
 
-        public CustomersController()
+        public CustomersController(IBaseRepository<Customer> customerRepository)
         {
-            customerRepository = new CustomerRepository();
+            this.customerRepository = customerRepository;
         }
 
         [EnableQuery]

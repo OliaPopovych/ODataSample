@@ -13,106 +13,86 @@ namespace ODataSample.Repositories
 
         private bool ProductExists(int key)
         {
-            using (var db = new CustomContext())
-            {
-                return db.Products.Any(p => p.ProductId == key);
-            }
+            return db.Products.Any(p => p.ProductId == key);
         }
 
         public IQueryable<Product> GetAll()
         {
-            using (var db = new CustomContext())
-            {
-                return db.Products;
-            }
+
+            return db.Products;
         }
 
         public Product GetById(int id)
         {
-            using (var db = new CustomContext())
-            {
-                var result = db.Products.Where(p => p.ProductId == id).FirstOrDefault();
-                return result;
-            }
+            var result = db.Products.Where(p => p.ProductId == id).FirstOrDefault();
+            return result;
         }
 
         public async Task<Product> Create(Product product)
         {
-            using (var db = new CustomContext())
-            {
-                db.Products.Add(product);
-                await db.SaveChangesAsync();
-                return product;
-            }
+            db.Products.Add(product);
+            await db.SaveChangesAsync();
+            return product;
         }
 
         public async Task<Product> Edit(int id, Delta<Product> deltaProduct)
         {
-            using (var db = new CustomContext())
+            var entity = await db.Products.FindAsync(id);
+
+            deltaProduct.Patch(entity);
+
+            try
             {
-                var entity = await db.Products.FindAsync(id);
-
-                deltaProduct.Patch(entity);
-
-                try
-                {
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(id))
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return entity;
+                await db.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(id))
+                {
+                    return null;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return entity;
         }
 
         public async Task<Product> FullUpdate(int id, Product updateProduct)
         {
-            using (var db = new CustomContext())
-            {
-                db.Entry(updateProduct).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(updateProduct).State = System.Data.Entity.EntityState.Modified;
 
-                try
-                {
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(id))
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return updateProduct;
+            try
+            {
+                await db.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(id))
+                {
+                    return null;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return updateProduct;
         }
 
         public async Task<Product> Delete(int id)
         {
-            using (var db = new CustomContext())
+            var product = await db.Products.FindAsync(id);
+
+            if (product == null)
             {
-                var product = await db.Products.FindAsync(id);
-
-                if (product == null)
-                {
-                    return null;
-                }
-
-                db.Products.Remove(product);
-                await db.SaveChangesAsync();
-                return product;
+                return null;
             }
+
+            db.Products.Remove(product);
+            await db.SaveChangesAsync();
+            return product;
         }
 
         public void Dispose()
