@@ -1,4 +1,5 @@
-﻿using ODataSample.Repositories;
+﻿using ODataSample.Models;
+using ODataSample.Repositories;
 using ODataSample.Repositories.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace ODataSample.Controllers
 {
     public class CustomersController : ODataController
     {
-        private readonly IBaseRepository<Customer> customerRepository;
+        private readonly ICustomerRepository customerRepository;
 
-        public CustomersController(IBaseRepository<Customer> customerRepository)
+        public CustomersController(ICustomerRepository customerRepository)
         {
             this.customerRepository = customerRepository;
         }
@@ -28,6 +29,13 @@ namespace ODataSample.Controllers
         {
             var entity = customerRepository.GetById(key);
             return entity;
+        }
+
+        // GET /Customer(1)/Products
+        [EnableQuery]
+        public IQueryable<Product> GetProducts([FromODataUri] int key)
+        {
+            return customerRepository.GetProducts(key);
         }
 
         public async Task<IHttpActionResult> Post(Customer entity)
@@ -84,6 +92,12 @@ namespace ODataSample.Controllers
             }
 
             return StatusCode(System.Net.HttpStatusCode.NoContent);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            customerRepository.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

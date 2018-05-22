@@ -12,9 +12,9 @@ namespace ODataSample.Controllers
     
     public class CountriesController : ODataController
     {
-        private readonly IBaseRepository<Country> countryRepository;
+        private readonly ICountryRepository countryRepository;
 
-        public CountriesController(IBaseRepository<Country> countryRepository)
+        public CountriesController(ICountryRepository countryRepository)
         {
             this.countryRepository = countryRepository;
         }

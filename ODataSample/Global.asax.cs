@@ -20,9 +20,9 @@ namespace ODataSample
         {
             IKernel kernal = new StandardKernel();
             kernal.Load(Assembly.GetExecutingAssembly());
-            kernal.Bind<IBaseRepository<Country>>().To<CountryRepository>();
-            kernal.Bind<IBaseRepository<Product>>().To<ProductRepository>();
-            kernal.Bind<IBaseRepository<Customer>>().To<CustomerRepository>();
+            kernal.Bind<ICountryRepository>().To<CountryRepository>();
+            kernal.Bind<IProductRepository> ().To<ProductRepository>();
+            kernal.Bind<ICustomerRepository>().To<CustomerRepository>();
             return kernal;
         }
     }

@@ -9,7 +9,7 @@ using System.Web.OData;
 
 namespace ODataSample.Repositories
 {
-    public class CountryRepository : IBaseRepository<Country>
+    public class CountryRepository : ICountryRepository
     {
         private CustomContext db = new CustomContext();
 

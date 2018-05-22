@@ -91,7 +91,9 @@
   <ItemGroup>
     <Compile Include="CountryRepository.cs" />
     <Compile Include="CustomerRepository.cs" />
-    <Compile Include="IBaseRepository.cs" />
+    <Compile Include="ICountryRepository.cs" />
+    <Compile Include="ICustomerRepository.cs" />
+    <Compile Include="IProductRepository.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\CustomInitializer.cs" />

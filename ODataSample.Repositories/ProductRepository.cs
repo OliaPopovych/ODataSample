@@ -7,7 +7,7 @@ using System.Web.OData;
 
 namespace ODataSample.Repositories
 {
-    public class ProductRepository : IBaseRepository<Product>
+    public class ProductRepository : IProductRepository
     {
         private CustomContext db = new CustomContext();
 

@@ -1,14 +1,14 @@
 ﻿using ODataSample.Models;
 using ODataSample.Repositories.Models;
-using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.OData;
+using System;
 
 namespace ODataSample.Repositories
 {
-    public class CustomerRepository : IBaseRepository<Customer>
+    public class CustomerRepository : ICustomerRepository
     {
         private CustomContext db = new CustomContext();
 
@@ -93,6 +93,28 @@ namespace ODataSample.Repositories
             db.Customers.Remove(entity);
             await db.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task<Customer> AddProduct(int customerId, int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Customer> RemoveProduct(int customerId, int productId)
+        {
+            var customer = await db.Customers.FindAsync(c => c.CustomerId == customerId);
+
+            if(customer == null)
+            {
+                return null;
+            }
+
+            db.Customers.Where(c => c.CustomerId == customerId).
+        }
+
+        public IQueryable<Product> GetProducts(int id)
+        {
+            return db.Customers.Where(c => c.CustomerId == id).SelectMany(c => c.Products);
         }
 
         public void Dispose()

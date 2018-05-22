@@ -10,9 +10,9 @@ namespace ODataSample.Controllers
 {
     public class ProductsController : ODataController
     {
-        private readonly IBaseRepository<Product> productRepository;
+        private readonly IProductRepository productRepository;
 
-        public ProductsController(IBaseRepository<Product> productRepository)
+        public ProductsController(IProductRepository productRepository)
         {
             this.productRepository = productRepository;
         }
@@ -84,6 +84,12 @@ namespace ODataSample.Controllers
             }
 
             return StatusCode(System.Net.HttpStatusCode.NoContent);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            productRepository.Dispose();
+            base.Dispose(disposing);
         }
     }
 }
